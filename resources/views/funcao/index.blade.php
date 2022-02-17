@@ -9,7 +9,10 @@
                         <h4>Fuções</h4>
                     </div>
                     <div class="col text-end">
-                        <a href="{{ route('funcao.create') }}" type="butto" class="btn btn-primary">Adicionar</a>
+                        <a href="{{ route('funcao.create') }}" type="button" class="btn btn-primary">Adicionar</a>
+                    </div>
+                    <div class="col text-end">
+                        <a href="{{ route('role.pdf', $filters['search'] ?? '') }}" type="button" class="btn btn-danger">PDF</a>
                     </div>
                 </div>
                 <div class="card">

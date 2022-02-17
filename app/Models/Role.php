@@ -15,6 +15,21 @@ class Role extends Model
 
     protected $fillable = ['description','status'];
 
+    /*
+     | --------------------------------------------
+     | Metodos estáticos 
+     | --------------------------------------------
+     | Exportação
+     */
+    public static function exports($search = null)
+    {
+        if ($search == null) {
+            return self::all();
+        } else {
+            return self::where('description','ILIKE', "%{$search}%")->get();
+        }
+    }
+
     /**
      * Get the indexable data array for the model.
      *

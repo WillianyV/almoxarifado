@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -77,9 +78,7 @@ class RoleController extends Controller
     public function update(UpdateRoleRequest $request, $id)
     {
         $role = Role::find($id);
-
-        $data = $request->except(['_token','_method']); 
-
+        $data = $request->except(['_token','_method']);
         $role->update($data);
 
         return to_route('funcao.index');
@@ -96,5 +95,12 @@ class RoleController extends Controller
         $role = Role::find($id);
         $role->delete();
         return to_route('funcao.index');
+    }
+
+    public function exportToPdf(Request $request)
+    {
+        $roles = Role::exports($request->search);
+        $dom_pdf = PDF::loadView('funcao.pdf', compact('roles'));  
+        return $dom_pdf->download('Lista_de_funcoes.pdf');
     }
 }

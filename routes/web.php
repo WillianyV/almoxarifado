@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('role/pdf/{search?}','App\Http\Controllers\RoleController@exportToPdf')->name('role.pdf');
+Route::get('role/spreadsheet/{search?}','App\Http\Controllers\RoleController@exportToSpreadsheet')->name('role.spreadsheet');
 
 Route::get('/', function () {
     return view('welcome');
