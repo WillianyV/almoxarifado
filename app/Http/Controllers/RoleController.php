@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -13,11 +14,15 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::all();
-
-        return view('funcao.index',compact('roles'));
+        if ($request->search) {
+            $roles = Role::search($request->search)->paginate();
+        }else{
+            $roles = Role::orderBy('id', 'ASC')->paginate(15);
+        } 
+        $filters = $request->except('_token');
+        return view('funcao.index',compact('roles','filters'));
     }
 
     /**
@@ -46,18 +51,6 @@ class RoleController extends Controller
         Role::create($data);
 
         return to_route('funcao.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  Integer
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $role = Role::find($id);
-        return view('funcao.show', compact('role'));
     }
 
     /**
