@@ -22,4 +22,4 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('funcao','App\Http\Controllers\RoleController');
+Route::resource('funcao','App\Http\Controllers\RoleController')->except('show');
