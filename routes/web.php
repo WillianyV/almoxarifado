@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('role/pdf/{search?}','App\Http\Controllers\RoleController@exportToPdf')->name('role.pdf');
-Route::get('role/spreadsheet/{search?}','App\Http\Controllers\RoleController@exportToSpreadsheet')->name('role.spreadsheet');
+Route::get('funcao/pdf/{search?}','App\Http\Controllers\RoleController@exportToPdf')->name('funcao.pdf');
+Route::get('setor/pdf/{search?}','App\Http\Controllers\DepartmentController@exportToPdf')->name('setor.pdf');
+// Route::get('role/spreadsheet/{search?}','App\Http\Controllers\RoleController@exportToSpreadsheet')->name('role.spreadsheet');
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,3 +26,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('funcao','App\Http\Controllers\RoleController')->except('show');
+Route::resource('setor','App\Http\Controllers\DepartmentController')->except('show');

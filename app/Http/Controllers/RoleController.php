@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    public function __construct(Role $role)
+    {
+        $this->role = $role;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -62,7 +67,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role   = Role::find($id);
+        $role = $this->role->find($id);
         $action = route('funcao.update', $role->id);
         $title  = 'Editar Função: ' . $role->description;
         return view('funcao.form', compact('role', 'action', 'title'));
@@ -71,13 +76,14 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateRoleRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $role = Role::find($id);
+        $role = $this->role->find($id); 
+        $request->validate($role->rules());
         $data = $request->except(['_token','_method']);
         $role->update($data);
 
@@ -92,14 +98,14 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::find($id);
+        $role = $this->role->find($id);
         $role->delete();
         return to_route('funcao.index');
     }
 
     public function exportToPdf(Request $request)
     {
-        $roles = Role::exports($request->search);
+        $roles   = $this->role::exports($request->search);
         $dom_pdf = PDF::loadView('funcao.pdf', compact('roles'));  
         return $dom_pdf->download('Lista_de_funcoes.pdf');
     }
