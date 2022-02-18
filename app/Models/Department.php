@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
-class Role extends Model
+class Department extends Model
 {
-    use HasFactory, SoftDeletes;
-    use Searchable;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = ['description','status'];
 
+    
+    
     /*
      | --------------------------------------------
      | Metodos estáticos 
@@ -38,11 +39,11 @@ class Role extends Model
     public function rules()
     {
         return [
-            'description' => "bail|required|min:3|max:100|unique:roles,description,$this->id",
+            'description' => "bail|required|min:3|max:100|unique:departments,description,$this->id",
             'status'      => 'bail|required',
         ];
     }
-
+    
     /**
      * Get the indexable data array for the model.
      *
@@ -71,5 +72,4 @@ class Role extends Model
             set: fn($value) => ($value == 'Ativo') ? 1 : 0
         );
     }
-    
 }

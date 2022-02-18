@@ -11,7 +11,7 @@
                     </div>
                     <form action="{{ $action }}" method="post">
                         @csrf                        
-                        @isset($role)
+                        @isset($department)
                             @method('PUT')
                         @endisset
                         <div class="row">
@@ -38,7 +38,7 @@
                         </div>
                         <div class="text-end">
                             <button type="submit" class="btn btn-success mx-1">Salvar</button>
-                            <a href="{{ route('funcao.index') }}" type="button" class="btn btn-danger">Cancelar</a>
+                            <a href="{{ route('setor.index') }}" type="button" class="btn btn-danger">Cancelar</a>
                         </div>                                        
                     </form>                    
                 </div>

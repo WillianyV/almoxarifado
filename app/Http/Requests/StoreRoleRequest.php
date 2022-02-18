@@ -25,7 +25,7 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'description' => 'bail|required|min:3|max:100|unique:roles',
-            'status'      => 'bail|required|boolean',
+            'status'      => 'bail|required',
         ];
     }
 }

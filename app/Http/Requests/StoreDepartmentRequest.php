@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRoleRequest extends FormRequest
+class StoreDepartmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class UpdateRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => "bail|required|min:3|max:100|unique:roles,description,{$this->role->id}",
-            'status'      => 'bail|required|boolean',
+            'description' => 'bail|required|min:3|max:100|unique:departments',
+            'status'      => 'bail|required',
         ];
     }
 }
