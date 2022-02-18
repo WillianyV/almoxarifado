@@ -74,7 +74,13 @@
                 </div>
             </div>
         </nav>
-
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    @include('components.alerts')
+                </div>
+            </div>
+        </div>
         <main class="py-4">
             @yield('content')
         </main>

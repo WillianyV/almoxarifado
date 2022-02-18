@@ -55,7 +55,7 @@ class DepartmentController extends Controller
 
         Department::create($data);
 
-        return to_route('setor.index');
+        return to_route('setor.index')->with('success','Setor cadastrado com sucesso.');
     }
 
     /**
@@ -86,7 +86,7 @@ class DepartmentController extends Controller
         $data = $request->except(['_token','_method']);
         $department->update($data);
 
-        return to_route('setor.index');
+        return to_route('setor.index')->with('success','Setor atualizado com sucesso.');
     }
 
     /**
@@ -100,7 +100,7 @@ class DepartmentController extends Controller
         $department = $this->department->find($id); 
         $department->delete();
 
-        return to_route('setor.index');
+        return to_route('setor.index')->with('success','Setor removido com sucesso.');
     }
 
     public function exportToPdf(Request $request)

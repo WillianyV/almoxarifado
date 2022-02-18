@@ -56,7 +56,7 @@ class RoleController extends Controller
 
         Role::create($data);
 
-        return to_route('funcao.index');
+        return to_route('funcao.index')->with('success','Função cadastrada com sucesso.');
     }
 
     /**
@@ -87,7 +87,7 @@ class RoleController extends Controller
         $data = $request->except(['_token','_method']);
         $role->update($data);
 
-        return to_route('funcao.index');
+        return to_route('funcao.index')->with('success','Função atualizada com sucesso.');
     }
 
     /**
@@ -100,7 +100,7 @@ class RoleController extends Controller
     {
         $role = $this->role->find($id);
         $role->delete();
-        return to_route('funcao.index');
+        return to_route('funcao.index')->with('success','Função removida com sucesso.');
     }
 
     public function exportToPdf(Request $request)
