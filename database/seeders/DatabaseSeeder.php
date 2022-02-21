@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Department;
 use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         Role::factory(100)->create();
         Department::factory(100)->create();
+        Category::factory(100)->create();
 
         // $this->call(RoleSeeder::class);
     }
