@@ -31,7 +31,7 @@ class StoreWarehouseRequest extends FormRequest
             'number'      => 'bail|required|string',
             'city'        => 'bail|required|min:3|max:150',
             'state'       => 'bail|required|max:2',
-            'zip_code'    => 'bail|required|max:9',
+            'zipcode'     => 'bail|required|max:9',
         ];
     }
 }

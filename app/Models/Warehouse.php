@@ -47,14 +47,14 @@ class Warehouse extends Model
     public function rules()
     {
         return [
-            'description' => "bail|required|min:3|max:100|unique:roles,description,$this->id",
+            'description' => "bail|required|min:3|max:100|unique:warehouses,description,$this->id",
             'status'      => 'bail|required',
             'address'     => 'bail|required|min:3|max:150',
             'district'    => 'bail|required|min:2|max:150',
             'number'      => 'bail|required|string',
             'city'        => 'bail|required|min:3|max:150',
             'state'       => 'bail|required|max:2',
-            'zip_code'    => 'bail|required|size:8',
+            'zipcode'     => 'bail|required|max:9',
         ];
     }
 

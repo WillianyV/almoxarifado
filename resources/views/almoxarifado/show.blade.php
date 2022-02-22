@@ -40,8 +40,8 @@
                                 <input type="text" class="form-control" name="city" value="{{ $warehouse->address->city}}">
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label for="zip_code" class="form-label">CEP</label>
-                                <input type="text" class="form-control" name="zip_code" value="{{ $warehouse->address->zip_code }}">
+                                <label for="zipcode" class="form-label">CEP</label>
+                                <input type="text" class="form-control" name="zipcode" value="{{ $warehouse->address->zipcode }}">
                             </div>
                             <div class="col-sm-4 mb-3">
                                 <label for="state" class="form-label">Estado</label>

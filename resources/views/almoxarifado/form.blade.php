@@ -72,10 +72,10 @@
                                 @enderror
                             </div>
                             <div class="col-sm-4 mb-3">
-                                <label for="zip_code" class="form-label">CEP</label>
-                                <input type="text" class="form-control" name="zip_code" id="zip_code" aria-describedby="zip_codeHelp" value="{{ old('zip_code', $warehouse->zip_code ?? '') }}" required>
-                                <div id="zip_codeHelp" class="form-text">Obrigatório.</div>
-                                @error('zip_code')
+                                <label for="zipcode" class="form-label">CEP</label>
+                                <input type="text" class="form-control" name="zipcode" id="zipcode" aria-describedby="zipcodeHelp" value="{{ old('zipcode', $warehouse->zipcode ?? '') }}" required>
+                                <div id="zipcodeHelp" class="form-text">Obrigatório.</div>
+                                @error('zipcode')
                                     <span class="text-danger"><small>{{ $message }}</small></span>
                                 @enderror
                             </div>

@@ -20,7 +20,7 @@ class AddressFactory extends Factory
             'address'  => 'AVENIDA UM',
             'number'   => '22A',
             'district' => 'PARQUE CAPIBARIBE',
-            'zip_code' => '56400000',
+            'zipcode' => '56400000',
             'city'     => 'SÃO LOURENÇO',
             'state'    => 'PE'
         ];
