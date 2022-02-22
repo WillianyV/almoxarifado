@@ -12,7 +12,7 @@ class Address extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['address','number','district','zip_code','city','state'];
+    protected $fillable = ['address','number','district','zipcode','city','state'];
 
     /*
      | Aqui estão os get's e set's de endereço
@@ -39,11 +39,11 @@ class Address extends Model
         );
     }
 
-    public function zip_code():Attribute
+    public function zipcode():Attribute
     {
         return new Attribute(
             get: fn($value) => Mask::apply($value, '00000-000'),
-            set: fn($value) => str_replace(['-'], '', $value)
+            set: fn($value) => str_replace('-', '', $value)
         );
     }
 

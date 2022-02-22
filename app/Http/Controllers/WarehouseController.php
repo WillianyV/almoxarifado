@@ -8,6 +8,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Arr;
+use PhpParser\Node\Stmt\TryCatch;
 
 class WarehouseController extends Controller
 {
@@ -52,8 +53,8 @@ class WarehouseController extends Controller
      */
     public function store(StoreWarehouseRequest $request)
     {
-        
         $data = $request->except(['_token','_method']);
+
         $address = Address::create($data);
 
         $data = Arr::add($data, 'address_id', $address->id);

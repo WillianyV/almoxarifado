@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('address',  150);
             $table->string('number',   10);
             $table->string('district', 100);
-            $table->string('zip_code', 12);
+            $table->string('zipcode', 8);
             $table->string('city',     100);
             $table->string('state',    2);
             $table->timestamps();
