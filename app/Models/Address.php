@@ -15,10 +15,6 @@ class Address extends Model
     protected $fillable = ['address','number','district','zip_code','city','state'];
 
     /*
-     | Relacionamentos
-     */
-
-    /*
      | Aqui estão os get's e set's de endereço
      */
 
