@@ -66,6 +66,16 @@ class User extends Authenticatable
     }
 
     /*
+     | Relacionamentos
+     */
+
+    public function warehouse()
+    {
+        //Um usuario pertence a um almoxarifado
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    /*
      | Get's e Set de user
      */
 

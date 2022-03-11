@@ -18,7 +18,7 @@ class DepartmentFactory extends Factory
     {
         return [
             'description' => $this->faker->unique()->sentence(),
-            'status' =>$this->faker->boolean()
+            'status'      => $this->faker->boolean()
         ];
     }
 }
