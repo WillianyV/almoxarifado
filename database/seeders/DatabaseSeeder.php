@@ -19,12 +19,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        /** Factories */
         Role::factory(100)->create();
         Department::factory(100)->create();
         Category::factory(100)->create();
         Provider::factory(100)->create();
-        Warehouse::factory(100)->create();
+        Warehouse::factory(100)->create();        
 
-        // $this->call(RoleSeeder::class);
+        /** Seeders */
+        $this->call(UserSeeder::class);
     }
 }
