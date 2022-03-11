@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name'     => 'bail|required|min:3',
-            'cpf'      => 'bail|required|max:14',
+            'cpf'      => 'bail|required|max:14|unique:users',
             'password' => 'bail|required|min:8|max:20',
             'type'     => 'bail|required',
             'status'   => 'bail|required',
