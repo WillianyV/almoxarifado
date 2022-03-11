@@ -18,6 +18,7 @@ Route::get('setor/pdf/{search?}'       ,'App\Http\Controllers\DepartmentControll
 Route::get('categoria/pdf/{search?}'   ,'App\Http\Controllers\CategoryController@exportToPdf')->name('categoria.pdf');
 Route::get('fornecedor/pdf/{search?}'  ,'App\Http\Controllers\ProviderController@exportToPdf')->name('fornecedor.pdf');
 Route::get('almoxarifado/pdf/{search?}','App\Http\Controllers\WarehouseController@exportToPdf')->name('almoxarifado.pdf');
+Route::get('usuario/pdf/{search?}'     ,'App\Http\Controllers\UserController@exportToPdf')->name('usuario.pdf');
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,3 +33,4 @@ Route::resource('setor'       ,'App\Http\Controllers\DepartmentController')->exc
 Route::resource('categoria'   ,'App\Http\Controllers\CategoryController')->except('show');
 Route::resource('fornecedor'  ,'App\Http\Controllers\ProviderController')->except('show');
 Route::resource('almoxarifado','App\Http\Controllers\WarehouseController');
+Route::resource('usuario'     ,'App\Http\Controllers\UserController');
