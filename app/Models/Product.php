@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Clemdesign\PhpMask\Mask as Mask;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Employee extends Model
+class Product extends Model
 {
     use HasFactory, SoftDeletes, Notifiable;
 
@@ -18,7 +17,9 @@ class Employee extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'code', 'cpf', 'status', 'role_id', 'department_id', 'company_id'];
+    protected $fillable = ['code', 'image', 'description', 'stock', 'minimumStock', 'purchaseData',
+    'status', 'category_id', 'provider_id', 'warehouse_id'];
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -28,13 +29,16 @@ class Employee extends Model
     public function rules()
     {
         return [
-            'name'    => 'bail|required|min:3',
-            'code'    => "bail|required|unique:employees,code,$this->id",
-            'cpf'     => "bail|required|cpf|max:14|unique:employees,cpf,$this->id",
-            'status'  => 'bail|required',
-            'role_id' => 'bail|required',
-            'department_id' => 'bail|required',
-            'company_id'    => 'bail|required',
+            'code'         => 'bail|required',
+            'image'        => 'bail|nullable|mimes:jpg,bmp,png',
+            'description'  => 'bail|required',
+            'stock'        => 'bail|required',
+            'minimumStock' => 'bail|required',
+            'purchaseData' => 'bail|required|date',
+            'status'       => 'bail|required',
+            'category_id'  => 'bail|required',
+            'provider_id'  => 'bail|required',
+            'warehouse_id' => 'bail|required',
         ];
     }
 
@@ -49,10 +53,8 @@ class Employee extends Model
         if ($search == null) {
             return self::all();
         } else {
-            return self::where('name','ILIKE', "%{$search}%")
-                ->orWhere('cpf','ILIKE',"%{$search}%")
+            return self::where('description','ILIKE', "%{$search}%")
                 ->orWhere('code','ILIKE',"%{$search}%")
-                ->with(['role'])
                 ->get();
         }
     }
@@ -61,37 +63,29 @@ class Employee extends Model
      | Relacionamentos
      */
 
-    public function role()
+    public function category()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function department()
+    public function provider()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Provider::class);
     }
 
-    public function company()
+    public function warehouse()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Warehouse::class);
     }
 
     /*
-     | Get's e Set de user
+     | Get's e Set de produtos
      */
 
-    public function name():Attribute
+    public function description():Attribute
     {
         return new Attribute(
             set: fn($value) => mb_strtoupper($value, 'UTF-8')
-        );
-    }
-
-    public function cpf():Attribute
-    {
-        return new Attribute(
-            get: fn($value) => Mask::apply($value, '000.000.000-00'),
-            set: fn($value) => str_replace(['.','-'],'', $value)
         );
     }
 
@@ -102,5 +96,4 @@ class Employee extends Model
             set: fn($value) => ($value == 'Ativo') ? 1 : 0
         );
     }
-
 }

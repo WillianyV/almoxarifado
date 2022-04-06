@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Product;
 use App\Models\Provider;
 use App\Models\Role;
 use App\Models\Warehouse;
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
         Warehouse::factory(100)->create();
         Company::factory(100)->create();
         Employee::factory(100)->create();
+        Product::factory(100)->create();
 
         /** Seeders */
         $this->call(UserSeeder::class);

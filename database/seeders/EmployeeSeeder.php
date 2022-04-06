@@ -15,14 +15,14 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-            Employee::create([
-                'name'    => 'Sebastiana Caroline Barros',
-                'code'    => '321',
-                'cpf'     => '27719879880',
-                'status'  => 1,
-                'role_id' => 1,
-                'department_id' => 1,
-                'company_id'    => 1
-            ]);
+        Employee::create([
+            'name'    => 'Sebastiana Caroline Barros',
+            'code'    => '321',
+            'cpf'     => '27719879880',
+            'status'  => 1,
+            'role_id' => 1,
+            'department_id' => 1,
+            'company_id'    => 1
+        ]);
     }
 }
