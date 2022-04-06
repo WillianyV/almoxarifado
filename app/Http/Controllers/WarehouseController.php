@@ -8,7 +8,6 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Arr;
-use PhpParser\Node\Stmt\TryCatch;
 
 class WarehouseController extends Controller
 {
@@ -27,7 +26,7 @@ class WarehouseController extends Controller
             $warehouses = Warehouse::search($request->search)->paginate();
         }else{
             $warehouses = Warehouse::orderBy('id', 'ASC')->paginate(15);
-        } 
+        }
         $filters = $request->except('_token');
         return view('almoxarifado.index',compact('warehouses','filters'));
     }
@@ -74,7 +73,7 @@ class WarehouseController extends Controller
     {
         $warehouse = $this->warehouse->with(['address'])->find($id);
 
-        return view('almoxarifado.show',compact('warehouse'));        
+        return view('almoxarifado.show',compact('warehouse'));
     }
 
     /**
@@ -85,7 +84,7 @@ class WarehouseController extends Controller
      */
     public function edit($id)
     {
-        $warehouse = $this->warehouse->find($id);
+        $warehouse = $this->warehouse->with(['address'])->find($id);
         $action = route('almoxarifado.update', $warehouse->id);
         $title  = 'Editar Almoxarifado: ' . $warehouse->description;
         return view('almoxarifado.form', compact('warehouse', 'action', 'title'));
@@ -100,9 +99,14 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $warehouse = $this->warehouse->find($id); 
+        $warehouse = $this->warehouse->find($id);
         $request->validate($warehouse->rules());
         $data = $request->except(['_token','_method']);
+
+        $address = Address::find($warehouse->address_id);
+
+        $address->update($data);
+
         $warehouse->update($data);
 
         return to_route('almoxarifado.index')->with('success','Almoxarifado atualizado com sucesso.');
@@ -121,11 +125,11 @@ class WarehouseController extends Controller
         return to_route('almoxarifado.index')->with('success','Almoxarifado removido com sucesso.');
     }
 
-    
+
     public function exportToPdf(Request $request)
     {
         $warehouses   = $this->warehouse::exports($request->search);
-        $dom_pdf = PDF::loadView('almoxarifado.pdf', compact('warehouses'));  
+        $dom_pdf = PDF::loadView('almoxarifado.pdf', compact('warehouses'));
         return $dom_pdf->download('Lista_de_almoxarifados.pdf');
     }
 }

@@ -1,0 +1,138 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Company;
+use App\Http\Requests\StoreCompanyRequest;
+use App\Models\Address;
+use App\Models\Warehouse;
+use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Arr;
+
+class CompanyController extends Controller
+{
+    public function __construct(Company $company)
+    {
+        $this->company = $company;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->search) {
+            $companies = Company::search($request->search)->paginate();
+        }else{
+            $companies = Company::orderBy('id', 'ASC')->paginate(15);
+        }
+        $filters = $request->except('_token');
+        return view('empresa.index',compact('companies','filters'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $action = route('empresa.store');
+        $title  = 'Criar uma nova empresa';
+        $warehouses = Warehouse::where('status',true)->select(['id','description'])->get();
+        return view('empresa.form', compact('action', 'title', 'warehouses'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreCompanyRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreCompanyRequest $request)
+    {
+        $data = $request->except(['_token','_method']);
+
+        $address = Address::create($data);
+
+        $data = Arr::add($data, 'address_id', $address->id);
+
+        Company::create($data);
+
+        return to_route('empresa.index')->with('success','Empresa cadastrada com sucesso.');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  Integer
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $company = $this->company->with(['address'])->find($id);
+
+        return view('empresa.show',compact('company'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  Integer
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $company = $this->company->with(['address'])->find($id);
+        $action = route('empresa.update', $company->id);
+        $title  = 'Editar Empresa: ' . $company->description;
+        $warehouses = Warehouse::where('status',true)->select(['id','description'])->get();
+
+        return view('empresa.form', compact('company', 'action', 'title', 'warehouses'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  Integer
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $company = $this->company->find($id);
+        $request->validate($company->rules());
+        $data = $request->except(['_token','_method']);
+
+        $address = Address::find($company->address_id);
+
+        $address->update($data);
+
+        $company->update($data);
+
+        return to_route('empresa.index')->with('success','Empresa atualizado com sucesso.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Integer
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $company = $this->company->find($id);
+        $company->delete();
+        return to_route('empresa.index')->with('success','Empresa removido com sucesso.');
+    }
+
+    public function exportToPdf(Request $request)
+    {
+        $companies   = $this->company::exports($request->search);
+        $dom_pdf = PDF::loadView('empresa.pdf', compact('companies'));
+        return $dom_pdf->download('Lista_de_empresas.pdf');
+    }
+}

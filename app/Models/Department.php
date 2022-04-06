@@ -14,11 +14,9 @@ class Department extends Model
 
     protected $fillable = ['description','status'];
 
-    
-    
     /*
      | --------------------------------------------
-     | Metodos estáticos 
+     | Metodos estáticos
      | --------------------------------------------
      | Exportação
      */
@@ -43,14 +41,14 @@ class Department extends Model
             'status'      => 'bail|required',
         ];
     }
-    
+
     /**
      * Get the indexable data array for the model.
      *
      * @return array
      */
     public function toSearchableArray()
-    { 
+    {
         return ['description' => $this->description];
     }
 

@@ -95,7 +95,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = $this->user->find($id);
-        // $request->validate($user->rules());
+        $request->validate($user->rules());
         $data = $request->except(['_token','_method']);
         $user->update($data);
 

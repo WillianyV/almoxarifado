@@ -19,8 +19,8 @@ class WarehouseFactory extends Factory
     {
         return [
             'description' => $this->faker->unique()->sentence(),
-            'address_id' => Address::factory(),
-            'status' =>$this->faker->boolean()
+            'address_id'  => Address::factory(),
+            'status'      => $this->faker->boolean()
         ];
     }
 }
