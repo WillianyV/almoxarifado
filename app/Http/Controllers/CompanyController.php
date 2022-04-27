@@ -8,7 +8,9 @@ use App\Models\Address;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -103,17 +105,23 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $company = $this->company->find($id);
-        $request->validate($company->rules());
-        $data = $request->except(['_token','_method']);
+        try {
+            DB::beginTransaction();
+            $company = $this->company->find($id);
+            $request->validate($company->rules());
+            $data = $request->except(['_token','_method']);
 
-        $address = Address::find($company->address_id);
+            $address = Address::find($company->address_id);
+            $address->update($data);
 
-        $address->update($data);
+            $company->update($data);
 
-        $company->update($data);
-
-        return to_route('empresa.index')->with('success','Empresa atualizado com sucesso.');
+            DB::commit();
+            return to_route('empresa.index')->with('success','Empresa atualizado com sucesso.');
+        } catch (Exception $th) {
+            DB::rollBack();
+            dd($th);
+        }
     }
 
     /**

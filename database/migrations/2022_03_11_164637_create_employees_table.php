@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignIdFor(Department::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Company::class)->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

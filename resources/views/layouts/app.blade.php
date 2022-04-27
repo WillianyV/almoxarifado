@@ -25,6 +25,8 @@
 
     <!-- Replace the Bootstrap CSS with the Bootstrap-Dark Variant CSS -->
     <link href="{{ asset('css/bootstrap-nightshade.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/style-image-modal.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -106,10 +108,12 @@
                             </div>
                         </li> --}}
                         <li class="nav-item align-self-center">
-                            <button type="button" class="btn btn-outline-secondary" id="your-darkmode-button-id">
-                                <img src="{{ asset('img/sun.png') }}">
-                                &nbsp;
-                                <img src="{{ asset('img/moon.png') }}">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="your-darkmode-button-id">
+                                <span class="align-top">
+                                    <img src="{{ asset('img/sun.png') }}">
+                                    &nbsp;
+                                    <img src="{{ asset('img/moon.png') }}">
+                                </span>
                             </button>
                         </li>
                     </ul>
@@ -141,6 +145,7 @@
             darkmode.toggleDarkMode();
         }
     </script>
+    <script src="{{ asset('js/imageProductModal.js') }}"></script>
 </body>
 
 </html>

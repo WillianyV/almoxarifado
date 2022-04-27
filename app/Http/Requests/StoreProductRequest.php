@@ -25,11 +25,10 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'code'         => 'bail|required',
-            'image'        => 'bail|nullable|mimes:jpg,bmp,png',
+            'image'        => 'bail|nullable|image|mimes:jpeg,png,jpg|max:4096',
             'description'  => 'bail|required',
             'stock'        => 'bail|required',
             'minimumStock' => 'bail|required',
-            'purchaseData' => 'bail|required|date',
             'status'       => 'bail|required',
             'category_id'  => 'bail|required',
             'provider_id'  => 'bail|required',

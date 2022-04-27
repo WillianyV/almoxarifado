@@ -21,6 +21,7 @@ Route::get('almoxarifado/pdf/{search?}','App\Http\Controllers\WarehouseControlle
 Route::get('usuario/pdf/{search?}'     ,'App\Http\Controllers\UserController@exportToPdf')->name('usuario.pdf');
 Route::get('empresa/pdf/{search?}'     ,'App\Http\Controllers\CompanyController@exportToPdf')->name('empresa.pdf');
 Route::get('funcionario/pdf/{search?}' ,'App\Http\Controllers\EmployeeController@exportToPdf')->name('funcionario.pdf');
+Route::get('produtos/pdf/{search?}' ,'App\Http\Controllers\ProductController@exportToPdf')->name('produtos.pdf');
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,3 +39,4 @@ Route::resource('almoxarifado','App\Http\Controllers\WarehouseController');
 Route::resource('usuario'     ,'App\Http\Controllers\UserController');
 Route::resource('empresa'     ,'App\Http\Controllers\CompanyController');
 Route::resource('funcionario' ,'App\Http\Controllers\EmployeeController');
+Route::resource('produtos'    ,'App\Http\Controllers\ProductController');

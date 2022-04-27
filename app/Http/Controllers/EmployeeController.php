@@ -29,6 +29,7 @@ class EmployeeController extends Controller
         }else{
             $employees = $this->employee->orderBy('id', 'ASC')->paginate(15);
         }
+
         $filters = $request->except('_token');
         return view('funcionario.index',compact('employees','filters'));
     }

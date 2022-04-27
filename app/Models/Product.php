@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes, Notifiable;
+    use HasFactory, SoftDeletes, Searchable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = ['code', 'image', 'description', 'stock', 'minimumStock', 'purchaseData',
+    protected $fillable = ['code', 'image', 'description', 'stock', 'minimumStock',
     'status', 'category_id', 'provider_id', 'warehouse_id'];
 
 
@@ -34,11 +34,23 @@ class Product extends Model
             'description'  => 'bail|required',
             'stock'        => 'bail|required',
             'minimumStock' => 'bail|required',
-            'purchaseData' => 'bail|required|date',
             'status'       => 'bail|required',
             'category_id'  => 'bail|required',
             'provider_id'  => 'bail|required',
             'warehouse_id' => 'bail|required',
+        ];
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'code' => $this->code,
+            'description' => $this->description
         ];
     }
 
@@ -76,6 +88,11 @@ class Product extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function cost()
+    {
+        return $this->hasMany(Cost::class);
     }
 
     /*

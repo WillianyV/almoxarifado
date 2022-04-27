@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         /** Factories */
+        /*
         Role::factory(100)->create();
         Department::factory(100)->create();
         Category::factory(100)->create();
@@ -31,8 +32,17 @@ class DatabaseSeeder extends Seeder
         Company::factory(100)->create();
         Employee::factory(100)->create();
         Product::factory(100)->create();
+        */
 
         /** Seeders */
+        $this->call(CategorySeeder::class);
+        $this->call(CompanySeeder::class);
+        $this->call(DepartmentSeeder::class);
+        $this->call(EmployeeSeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(ProviderSeeder::class);
+        $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(WarehouseSeeder::class);
     }
 }
