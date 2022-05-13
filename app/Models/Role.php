@@ -10,14 +10,13 @@ use Laravel\Scout\Searchable;
 
 class Role extends Model
 {
-    use HasFactory, SoftDeletes;
-    use Searchable;
+    use HasFactory, SoftDeletes, Searchable;
 
     protected $fillable = ['description','status'];
 
     /*
      | --------------------------------------------
-     | Metodos estáticos 
+     | Metodos estáticos
      | --------------------------------------------
      | Exportação
      */
@@ -49,7 +48,7 @@ class Role extends Model
      * @return array
      */
     public function toSearchableArray()
-    { 
+    {
         return ['description' => $this->description];
     }
 
@@ -71,5 +70,5 @@ class Role extends Model
             set: fn($value) => ($value == 'Ativo') ? 1 : 0
         );
     }
-    
+
 }

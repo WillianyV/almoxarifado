@@ -3,14 +3,14 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-12">
+            <div class="card bg-violet-dark">
                 <div class="card-body">
                     <div class="mb-3">
                         <h4>{{ $title }}</h4>
                     </div>
                     <form action="{{ $action }}" method="post">
-                        @csrf                        
+                        @csrf
                         @isset($category)
                             @method('PUT')
                         @endisset
@@ -39,8 +39,8 @@
                         <div class="text-end">
                             <button type="submit" class="btn btn-success mx-1">Salvar</button>
                             <a href="{{ route('categoria.index') }}" type="button" class="btn btn-danger">Cancelar</a>
-                        </div>                                        
-                    </form>                    
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -21,7 +21,7 @@ class EmployeeFactory extends Factory
     {
         return [
             'name'    => $this->faker->name(),
-            'code'    => $this->faker->unique()->postcode(),
+            'code'    => $this->faker->number_format(),
             'cpf'     => $this->faker->unique()->postcode(),
             'status'  => $this->faker->boolean(),
             'role_id' => Role::factory(),

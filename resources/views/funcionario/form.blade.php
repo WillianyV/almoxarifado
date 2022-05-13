@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card bg-violet-dark">
                 <div class="card-body">
                     <div class="mb-3">
                         <h4>{{ $title }}</h4>
@@ -72,7 +72,7 @@
                                 <select class="form-select" name="company_id" id="company_id" aria-describedby="company_idHelp" required>
                                     <option value="" disabled selected hidden>Selecione o setor</option>
                                     @foreach ($companies as $company)
-                                        <option value="{{ $company->id }}" {{ old('company_id', $employee->company_id  ?? '') == $company->id ? 'selected' : ''}}>{{ $company->description }}</option>
+                                        <option value="{{ $company->id }}" {{ old('company_id', $employee->company_id  ?? '') == $company->id ? 'selected' : ''}}>{{ $company->fantasyName }}</option>
                                     @endforeach
                                 </select>
                                 <div id="company_idHelp" class="form-text">Obrigatório.</div>

@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Clemdesign\PhpMask\Mask as Mask;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -48,6 +49,20 @@ class User extends Authenticatable
             'warehouse_id' => 'bail|required'
         ];
     }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->name,
+            'cpf'  => $this->cpf
+        ];
+    }
+
 
     /*
      | --------------------------------------------

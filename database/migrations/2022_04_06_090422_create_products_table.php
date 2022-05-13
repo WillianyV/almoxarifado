@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('description');
             $table->integer('stock');
             $table->integer('minimumStock');
-            $table->date('purchaseData');
             $table->boolean('status');
             $table->foreignIdFor(Category::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Provider::class)->constrained()->onDelete('cascade');

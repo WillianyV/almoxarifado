@@ -13,11 +13,7 @@ class Employee extends Model
 {
     use HasFactory, SoftDeletes, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table    = 'employees';
     protected $fillable = ['name', 'code', 'cpf', 'status', 'role_id', 'department_id', 'company_id'];
 
     /**

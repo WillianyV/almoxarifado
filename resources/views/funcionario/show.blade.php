@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card bg-violet-dark">
                 <div class="card-body">
                     <div class="mb-3">
                         <h4>{{ $employee->name }}</h4>

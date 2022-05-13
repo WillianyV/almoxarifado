@@ -44,7 +44,13 @@ class Company extends Model
             'fantasyName'   => 'bail|required|max:100',
             'corporateName' => 'bail|required|max:100',
             'status'        => 'bail|required',
-            'address_id'    => 'bail|required',
+            "warehouse_id"  => 'bail|required',
+            "address"       => 'bail|required',
+            "number"        => 'bail|required',
+            "district"      => 'bail|required',
+            "city"          => 'bail|required',
+            "zipcode"       => 'bail|required',
+            "state"         => 'bail|required',
         ];
     }
 
