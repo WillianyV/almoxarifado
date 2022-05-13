@@ -26,7 +26,8 @@ class StoreEmployeeRequest extends FormRequest
         return [
             'name'    => 'bail|required|min:3',
             'code'    => 'bail|required|unique:employees',
-            'cpf'     => 'bail|required|cpf|max:14|unique:employees',
+            'cpf'     => 'bail|required|max:14|unique:employees',
+            // 'cpf'     => 'bail|required|cpf|max:14|unique:employees',
             'status'  => 'bail|required',
             'role_id' => 'bail|required',
             'department_id' => 'bail|required',

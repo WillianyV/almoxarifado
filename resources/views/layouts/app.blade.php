@@ -2,40 +2,31 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- The page supports both dark and light color schemes,
-         and the page author prefers / default is light. -->
-    <meta name="color-scheme" content="light dark">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <link href="{{ asset('css/style-image-modal.css') }}" rel="stylesheet">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <!-- Replace the Bootstrap CSS with the Bootstrap-Dark Variant CSS -->
-    <link href="{{ asset('css/bootstrap-nightshade.min.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('css/style-image-modal.css') }}" rel="stylesheet">
 </head>
-
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-gray-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{-- <img src="{{ asset('img/logo-grupo-compare.png') }}" alt="APP Registros" height="27">
-                    &nbsp; --}}
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -59,13 +50,38 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
+
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
                         @else
-                            <li class="nav-item ">
-                                {{-- {{ Route::is('lancamento-filial.index','lancamento-filial.create','lancamento-filial.show','lancamento-filial.edit')? 'active': '' }} --}}
-                                <a class="nav-link " href="{{ route('funcao.index') }}">
-                                    Função
+                            {{-- Lancamento --}}
+                            {{-- <li class="nav-item ">
+                                <a class="nav-link {{ Route::is('lancamento-filial.index','lancamento-filial.create','lancamento-filial.show','lancamento-filial.edit')? 'active': '' }}"
+                                    href="{{ route('lancamento-filial.index') }}">
+                                    Lançamento Filial
+                                </a>
+                            </li> --}}
+
+                            {{-- Usuario --}}
+                            <li class="nav-item">
+                                <a class="nav-link {{ Route::is('usuario.index','usuario.create','usuario.show','usuario.edit')? 'active': '' }}"
+                                    href="{{ route('usuario.index') }}">
+                                    Usuários
                                 </a>
                             </li>
+
+                            {{-- Logs --}}
+                            {{-- @if (!(Auth::user()->type == 'USUARIO' || Auth::user()->type == 'ADMINISTRADOR'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('log-viewer::logs.list') }}">
+                                        Log's
+                                    </a>
+                                </li>
+                            @endif --}}
+
                             {{-- Perfil --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -82,10 +98,9 @@
                                     <div class="dropdown-divider"></div>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
+                                                         document.getElementById('logout-form').submit();">
                                         {{ __('Sair') }}
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         class="d-none">
                                         @csrf
@@ -93,58 +108,17 @@
                                 </div>
                             </li>
                         @endguest
-                        {{-- <li class="nav-item align-self-center">
-                            &nbsp;
-
-                            &nbsp;
-                        </li> --}}
-                        {{-- <li class="nav-item align-self-center">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    id="your-darkmode-button-id">
-                                <label class="form-check-label" for="your-darkmode-button-id">
-                                    <img src="{{ asset('img/moon.png') }}">
-                                </label>
-                            </div>
-                        </li> --}}
-                        <li class="nav-item align-self-center">
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="your-darkmode-button-id">
-                                <span class="align-top">
-                                    <img src="{{ asset('img/sun.png') }}">
-                                    &nbsp;
-                                    <img src="{{ asset('img/moon.png') }}">
-                                </span>
-                            </button>
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
         <main class="py-4">
-            {{-- Alertas --}}
-            {{-- <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        @include('components.alerts')
-                    </div>
-                </div>
-            </div> --}}
-            {{-- Conteúdo --}}
             @yield('content')
-            {{-- Rodapé --}}
         </main>
     </div>
-
-    <!-- Optional Bootstrap JavaScript -->
-    <script src="location/of/the/bootstrap.js/here"></script>
-
-    <!-- Required DarkMode JavaScript -->
-    <script src="{{ asset('js/darkmode.min.js') }}"></script>
-    <script>
-        document.querySelector("#your-darkmode-button-id").onclick = function(e) {
-            darkmode.toggleDarkMode();
-        }
-    </script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"
+        integrity="sha512-PqRelaJGXVuQ81N6wjUrRQelCDR7z8RvKGiR9SbSxKHPIt15eJDmIVv9EJgwq0XvgylszsjzvQ0+VyI2WtIshQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <script src="{{ asset('js/imageProductModal.js') }}"></script>
 </body>
 

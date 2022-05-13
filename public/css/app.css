@@ -58,6 +58,9 @@
   --bs-body-line-height: 1.6;
   --bs-body-color: #212529;
   --bs-body-bg: #f8fafc;
+  --bs-gray-dark:#1E1E2E; /*NOVOS:*/
+  --bs-violet-dark:#27293D;
+  --bs-with-grey: #A9A9B1;
 }
 
 *,
@@ -78,9 +81,10 @@ body {
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
-  color: var(--bs-body-color);
+  /* color: rgba(255, 255, 255, 0.5) !important; COR DAS FONTES DO PROJETO (.text-white-50) */
+  color: #D4D4D8 !important;
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  background-color: var(--bs-gray-dark); /*BACKGROUND*/
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -324,9 +328,10 @@ th {
   border-style: solid;
   border-width: 0;
 }
-
+/*COR DA LABEL*/
 label {
   display: inline-block;
+  color: #A9A9B1;
 }
 
 button {
@@ -599,10 +604,13 @@ progress {
   height: auto;
 }
 
+/* --------------------
+ * MODIFICANDO BORDA DA IMG
+ * --------------------*/
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #f8fafc;
-  border: 1px solid #dee2e6;
+  background-color: #404964;
+  /* border: 1px solid #6c757d; */
   border-radius: 0.25rem;
   max-width: 100%;
   height: auto;
@@ -2115,6 +2123,20 @@ progress {
   color: #fff;
   border-color: #373b3e;
 }
+/* --------------------
+ * Nova tabela
+ * --------------------*/
+.table-gray-dark {
+    --bs-table-bg: #27293D;
+    --bs-table-striped-bg: #404964;
+    --bs-table-striped-color: #D4D4D8;
+    --bs-table-active-bg: #404964;
+    --bs-table-active-color: #D4D4D8;
+    --bs-table-hover-bg: #404964;
+    --bs-table-hover-color: #D4D4D8;
+    color: #D4D4D8;
+    border-color: #404964;
+  }
 
 .table-responsive {
   overflow-x: auto;
@@ -2175,12 +2197,17 @@ progress {
   font-size: 0.7875rem;
 }
 
+/*------------------------------
+* OBRIGATORIO/NAO OBRIGATORIO
+* ----------------------------- */
 .form-text {
   margin-top: 0.25rem;
   font-size: 0.875em;
-  color: #6c757d;
+  color: #87878D;
 }
-
+/*------------------------------
+* Inputs
+* ----------------------------- */
 .form-control {
   display: block;
   width: 100%;
@@ -2188,10 +2215,10 @@ progress {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #212529;
-  background-color: #f8fafc;
+  color: #D4D4D8;
+  background-color: #27293D;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid #404964;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -2209,30 +2236,35 @@ progress {
 .form-control[type=file]:not(:disabled):not([readonly]) {
   cursor: pointer;
 }
+/*------------------------------
+* Inputs Borda ao Clicar
+* ----------------------------- */
 .form-control:focus {
-  color: #212529;
-  background-color: #f8fafc;
-  border-color: #86b7fe;
+  color: #D4D4D8;
+  background-color: #27293D;
+  border-color: #5F70AD;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(145, 151, 160, 0.07);
 }
 .form-control::-webkit-date-and-time-value {
   height: 1.6em;
 }
 .form-control::-moz-placeholder {
-  color: #6c757d;
+  color: #717982;
   opacity: 1;
 }
 .form-control:-ms-input-placeholder {
-  color: #6c757d;
+  color: #717982;
   opacity: 1;
 }
 .form-control::placeholder {
-  color: #6c757d;
+  color: #717982;
   opacity: 1;
 }
+/* MODIFICANDO A COR DO TEXTO E COR DE FUNDO*/
 .form-control:disabled, .form-control[readonly] {
-  background-color: #e9ecef;
+  background-color: #1D253B;
+  color: #546FB2;
   opacity: 1;
 }
 .form-control::-webkit-file-upload-button {
@@ -2400,6 +2432,9 @@ textarea.form-control-lg {
   border-radius: 0.25rem;
 }
 
+/* -----------------------
+ * Modificação das cores
+ * ----------------------- */
 .form-select {
   display: block;
   width: 100%;
@@ -2408,13 +2443,13 @@ textarea.form-control-lg {
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
-  color: #212529;
-  background-color: #f8fafc;
+  color: #D4D4D8;
+  background-color: #27293D;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 16px 12px;
-  border: 1px solid #ced4da;
+  border: 1px solid #404964;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   -webkit-appearance: none;
@@ -2427,9 +2462,10 @@ textarea.form-control-lg {
   }
 }
 .form-select:focus {
-  border-color: #86b7fe;
+  border-color: #5F70AD;
+  color: #D4D4D8;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(145, 151, 160, 0.10);
 }
 .form-select[multiple], .form-select[size]:not([size="1"]) {
   padding-right: 0.75rem;
@@ -3026,13 +3062,13 @@ textarea.form-control-lg {
 
 .btn-primary {
   color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: #0A58CA;
+  border-color: #0A58CA;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #0b5ed7;
-  border-color: #0a58ca;
+  background-color: #094DB1;
+  border-color: #074297;
 }
 .btn-check:focus + .btn-primary, .btn-primary:focus {
   color: #fff;
@@ -3056,13 +3092,13 @@ textarea.form-control-lg {
 
 .btn-secondary {
   color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: #565D64;
+  border-color: #565D64;
 }
 .btn-secondary:hover {
   color: #fff;
-  background-color: #5c636a;
-  border-color: #565e64;
+  background-color: #4B5157;
+  border-color: #40464B;
 }
 .btn-check:focus + .btn-secondary, .btn-secondary:focus {
   color: #fff;
@@ -3086,13 +3122,13 @@ textarea.form-control-lg {
 
 .btn-success {
   color: #fff;
-  background-color: #198754;
-  border-color: #198754;
+  background-color: #146C43;
+  border-color: #146C43;
 }
 .btn-success:hover {
   color: #fff;
-  background-color: #157347;
-  border-color: #146c43;
+  background-color: #115E3A;
+  border-color: #0F5132;
 }
 .btn-check:focus + .btn-success, .btn-success:focus {
   color: #fff;
@@ -3176,13 +3212,13 @@ textarea.form-control-lg {
 
 .btn-danger {
   color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: #B02A37;
+  border-color: #B02A37;
 }
 .btn-danger:hover {
   color: #fff;
-  background-color: #bb2d3b;
-  border-color: #b02a37;
+  background-color: #9A2530;
+  border-color: #841F29;
 }
 .btn-check:focus + .btn-danger, .btn-danger:focus {
   color: #fff;
@@ -3288,15 +3324,15 @@ textarea.form-control-lg {
   color: #0d6efd;
   background-color: transparent;
 }
-
+/*MODIFICANDO AS CORES*/
 .btn-outline-secondary {
-  color: #6c757d;
-  border-color: #6c757d;
+  color: #717982;
+  border-color: #565D64;
 }
 .btn-outline-secondary:hover {
   color: #fff;
-  background-color: #6c757d;
-  border-color: #6c757d;
+  background-color: #565D64;
+  border-color: #565D64;
 }
 .btn-check:focus + .btn-outline-secondary, .btn-outline-secondary:focus {
   box-shadow: 0 0 0 0.25rem rgba(108, 117, 125, 0.5);
@@ -5532,9 +5568,9 @@ textarea.form-control-lg {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #fff;
+  background-color: #1E1E2E;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(64, 73, 100, 0.2);
   border-radius: 0.3rem;
   outline: 0;
 }
@@ -7713,6 +7749,11 @@ textarea.form-control-lg {
   word-break: break-word !important;
 }
 
+.text-with-grey {
+    --bs-text-opacity: 1;
+    color: var(--bs-with-grey) !important;
+}
+
 /* rtl:end:remove */
 .text-primary {
   --bs-text-opacity: 1;
@@ -7804,6 +7845,18 @@ textarea.form-control-lg {
 .text-opacity-100 {
   --bs-text-opacity: 1;
 }
+
+/*NOVOS : */
+.bg-violet-dark {
+    --bs-bg-opacity: 1;
+    background-color: var(--bs-violet-dark) !important;
+}
+
+.bg-gray-dark {
+    --bs-bg-opacity: 1;
+    background-color: var(--bs-gray-dark) !important;
+}
+/*FIM*/
 
 .bg-primary {
   --bs-bg-opacity: 1;

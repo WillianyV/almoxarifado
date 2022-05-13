@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card bg-violet-dark">
                 <div class="card-body">
                     <div class="mb-3">
                         <h4>{{ $company->fantasyName }}</h4>
@@ -25,7 +25,7 @@
                                 <label for="cnpj" class="form-label">CNPJ</label>
                                 <input type="text" class="form-control" name="cnpj" id="cnpj" value="{{ $company->cnpj }}">
                             </div>
-                            <div class="col-sm-4  mb-3">
+                            <div class="col-sm-4 mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <input type="text" class="form-control" name="status" id="status" value="{{ $company->status }}">
                             </div>
