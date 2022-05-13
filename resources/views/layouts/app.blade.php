@@ -65,22 +65,44 @@
                                 </a>
                             </li> --}}
 
-                            {{-- Usuario --}}
-                            <li class="nav-item">
-                                <a class="nav-link {{ Route::is('usuario.index','usuario.create','usuario.show','usuario.edit')? 'active': '' }}"
-                                    href="{{ route('usuario.index') }}">
-                                    Usuários
-                                </a>
-                            </li>
+                            {{-- MOVIMENTO DIARIO --}}
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Movimento Diario</a>
 
-                            {{-- Logs --}}
-                            {{-- @if (!(Auth::user()->type == 'USUARIO' || Auth::user()->type == 'ADMINISTRADOR'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('log-viewer::logs.list') }}">
-                                        Log's
-                                    </a>
-                                </li>
-                            @endif --}}
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('almoxarifado.index') }}">Entrada de Mercadorias</a>
+                                    <a class="dropdown-item" href="{{ route('categoria.index') }}">Saída de Mercadorias</a>
+                                    {{-- <div class="dropdown-divider"></div> --}}
+                                </div>
+                            </li>
+                            {{-- EVENTUAIS --}}
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle
+                                {{ Route::is('almoxarifado.index','almoxarifado.create','almoxarifado.show','almoxarifado.edit',
+                                'categoria.index','categoria.create','categoria.edit',
+                                'empresa.index','empresa.create','empresa.show','empresa.edit',
+                                'fornecedor.index','fornecedor.create','fornecedor.edit',
+                                'funcao.index','funcao.create','funcao.edit',
+                                'funcionario.index','funcionario.create','funcionario.show','funcionario.edit',
+                                'produtos.index','produtos.create','produtos.show','produtos.edit',
+                                'setor.index','setor.create','setor.edit',
+                                'usuario.index','usuario.create','usuario.show','usuario.edit',)? 'active': '' }}
+                                " href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Eventuais</a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('almoxarifado.index') }}">Almoxarifados</a>
+                                    <a class="dropdown-item" href="{{ route('categoria.index') }}">Categorias</a>
+                                    <a class="dropdown-item" href="{{ route('empresa.index') }}">Empresas</a>
+                                    <a class="dropdown-item" href="{{ route('fornecedor.index') }}">Fornecedores</a>
+                                    <a class="dropdown-item" href="{{ route('funcao.index') }}">Funções</a>
+                                    <a class="dropdown-item" href="{{ route('funcionario.index') }}">Funcionários</a>
+                                    <a class="dropdown-item" href="{{ route('produtos.index') }}">Produtos</a>
+                                    <a class="dropdown-item" href="{{ route('setor.index') }}">Setores</a>
+                                    <a class="dropdown-item" href="{{ route('usuario.index') }}">Usuarios</a>
+                                </div>
+                            </li>
 
                             {{-- Perfil --}}
                             <li class="nav-item dropdown">
@@ -90,13 +112,8 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
-                                    {{-- <a class="dropdown-item" href="{{ route('perfil.index') }}">
-                                        Perfil
-                                    </a> --}}
-
+                                    <a class="dropdown-item" href="{{ route('usuario.index') }}">Perfil</a>
                                     <div class="dropdown-divider"></div>
-
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();">
                                         {{ __('Sair') }}
