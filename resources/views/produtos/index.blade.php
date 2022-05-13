@@ -11,7 +11,7 @@
                                 <h4>Produtos</h4>
                             </div>
                             <div class="col text-end">
-                                <a href="{{ route('produtos.create') }}" type="button" class="btn btn-primary">Adicionar</a>
+                                <a href="{{ route('produtos.create') }}" type="button" class="btn btn-primary rounded-circle">&plus;</a>
                             </div>
                         </div>
                         <div class="row mb-3">
