@@ -33,6 +33,7 @@ class StoreProductRequest extends FormRequest
             'category_id'  => 'bail|required',
             'provider_id'  => 'bail|required',
             'warehouse_id' => 'bail|required',
+            'unitaryValue' => 'bail|required',
         ];
     }
 }
