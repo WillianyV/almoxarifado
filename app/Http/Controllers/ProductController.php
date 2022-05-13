@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
+use App\Models\GoodsReceipt;
 use App\Models\Provider;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -70,7 +71,14 @@ class ProductController extends Controller
         }
 
         // Cria o produto
-        $this->product->create($data);
+        $product = $this->product->create($data);
+        // da entrada de mercadoria
+        GoodsReceipt::create([
+            'value'      => $request->unitaryValue,
+            'date'       => date('Y-m-d'),
+            'amount'     => $request->stock,
+            'product_id' => $product->id
+        ]);
 
         return to_route('produtos.index')->with('success','Produto cadastrado com sucesso.');
     }

@@ -42,11 +42,54 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 mb-3">
+                            <div class="col-sm-12 mb-3">
                                 <label for="description" class="form-label">Descrição</label>
                                 <input type="text" class="form-control" name="description" id="description" aria-describedby="descriptionHelp" value="{{ old('description', $product->description ?? '') }}" required>
                                 <div id="descriptionHelp" class="form-text">Obrigatório.</div>
                                 @error('description')
+                                    <span class="text-danger"><small>{{ $message }}</small></span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label for="category_id" class="form-label">Categoria</label>
+                                <select class="form-select" name="category_id" id="category_id" aria-describedby="category_idHelp" required>
+                                    <option value="" disabled selected hidden>Selecione</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" {{ old('category_id', $product->category_id  ?? '') == $category->id ? 'selected' : ''}}>{{ $category->description }}</option>
+                                    @endforeach
+                                </select>
+                                <div id="category_idHelp" class="form-text">Obrigatório.</div>
+                                @error('category_id')
+                                    <span class="text-danger"><small>{{ $message }}</small></span>
+                                @enderror
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label for="provider_id" class="form-label">Fornecedor</label>
+                                <select class="form-select" name="provider_id" id="provider_id" aria-describedby="provider_idHelp" required>
+                                    <option value="" disabled selected hidden>Selecione</option>
+                                    @foreach ($providers as $provider)
+                                        <option value="{{ $provider->id }}" {{ old('provider_id', $product->provider_id  ?? '') == $provider->id ? 'selected' : ''}}>{{ $provider->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div id="provider_idHelp" class="form-text">Obrigatório.</div>
+                                @error('provider_id')
+                                    <span class="text-danger"><small>{{ $message }}</small></span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label for="warehouse_id" class="form-label">Almoxarifado</label>
+                                <select class="form-select" name="warehouse_id" id="warehouse_id" aria-describedby="warehouse_idHelp" required>
+                                    <option value="" disabled selected hidden>Selecione</option>
+                                    @foreach ($warehouses as $warehouse)
+                                        <option value="{{ $warehouse->id }}" {{ old('warehouse_id', $product->warehouse_id  ?? '') == $warehouse->id ? 'selected' : ''}}>{{ $warehouse->description }}</option>
+                                    @endforeach
+                                </select>
+                                <div id="warehouse_idHelp" class="form-text">Obrigatório.</div>
+                                @error('warehouse_id')
                                     <span class="text-danger"><small>{{ $message }}</small></span>
                                 @enderror
                             </div>
@@ -68,45 +111,17 @@
                             </div>
                         </div>
                         <div class="row">
+                            @if (!isset($product))
                             <div class="col-sm-3 mb-3">
-                                <label for="category_id" class="form-label">Categoria</label>
-                                <select class="form-select" name="category_id" id="category_id" aria-describedby="category_idHelp" required>
-                                    <option value="" disabled selected hidden>Selecione</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" {{ old('category_id', $product->category_id  ?? '') == $category->id ? 'selected' : ''}}>{{ $category->description }}</option>
-                                    @endforeach
-                                </select>
-                                <div id="category_idHelp" class="form-text">Obrigatório.</div>
-                                @error('category_id')
+                                <label for="unitaryValue" class="form-label">Valor Unitario</label>
+                                <input class="form-control" name="unitaryValue" id="unitaryValue"
+                                aria-describedby="unitaryValueHelp" value="{{ old('unitaryValue') }}" required>
+                                <div id="unitaryValueHelp" class="form-text">Obrigatório.</div>
+                                @error('unitaryValue')
                                     <span class="text-danger"><small>{{ $message }}</small></span>
                                 @enderror
                             </div>
-                            <div class="col-sm-3 mb-3">
-                                <label for="provider_id" class="form-label">Fornecedor</label>
-                                <select class="form-select" name="provider_id" id="provider_id" aria-describedby="provider_idHelp" required>
-                                    <option value="" disabled selected hidden>Selecione</option>
-                                    @foreach ($providers as $provider)
-                                        <option value="{{ $provider->id }}" {{ old('provider_id', $product->provider_id  ?? '') == $provider->id ? 'selected' : ''}}>{{ $provider->name }}</option>
-                                    @endforeach
-                                </select>
-                                <div id="provider_idHelp" class="form-text">Obrigatório.</div>
-                                @error('provider_id')
-                                    <span class="text-danger"><small>{{ $message }}</small></span>
-                                @enderror
-                            </div>
-                            <div class="col-sm-3 mb-3">
-                                <label for="warehouse_id" class="form-label">Almoxarifado</label>
-                                <select class="form-select" name="warehouse_id" id="warehouse_id" aria-describedby="warehouse_idHelp" required>
-                                    <option value="" disabled selected hidden>Selecione</option>
-                                    @foreach ($warehouses as $warehouse)
-                                        <option value="{{ $warehouse->id }}" {{ old('warehouse_id', $product->warehouse_id  ?? '') == $warehouse->id ? 'selected' : ''}}>{{ $warehouse->description }}</option>
-                                    @endforeach
-                                </select>
-                                <div id="warehouse_idHelp" class="form-text">Obrigatório.</div>
-                                @error('warehouse_id')
-                                    <span class="text-danger"><small>{{ $message }}</small></span>
-                                @enderror
-                            </div>
+                            @endif
                             <div class="col-sm-3 mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-select" name="status" id="status" aria-describedby="statusHelp" required>
