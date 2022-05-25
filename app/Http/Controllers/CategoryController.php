@@ -23,8 +23,8 @@ class CategoryController extends Controller
         if ($request->search) {
             $categories = Category::search($request->search)->paginate();
         }else{
-            $categories = Category::orderBy('id', 'ASC')->paginate(15);
-        } 
+            $categories = Category::orderBy('id', 'ASC')->paginate(1);
+        }
         $filters = $request->except('_token');
         return view('categoria.index',compact('categories','filters'));
     }
@@ -80,8 +80,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = $this->category->find($id); 
-        $request->validate($category->rules());        
+        $category = $this->category->find($id);
+        $request->validate($category->rules());
         $data = $request->except(['_token','_method']);
         $category->update($data);
 
@@ -96,7 +96,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = $this->category->find($id); 
+        $category = $this->category->find($id);
         $category->delete();
 
         return to_route('categoria.index')->with('success','Categoria removida com sucesso.');

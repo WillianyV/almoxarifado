@@ -12,7 +12,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <link href="{{ asset('css/style-image-modal.css') }}" rel="stylesheet">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -20,11 +19,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style-image-modal.css') }}" rel="stylesheet">
 
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-gray-dark">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -71,7 +72,7 @@
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Movimento Diario</a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('almoxarifado.index') }}">Entrada de Mercadorias</a>
+                                    <a class="dropdown-item" href="{{ route('entrada-de-mercadorias.index') }}">Entrada de Mercadorias</a>
                                     <a class="dropdown-item" href="{{ route('categoria.index') }}">Saída de Mercadorias</a>
                                     {{-- <div class="dropdown-divider"></div> --}}
                                 </div>
@@ -133,9 +134,6 @@
             @yield('content')
         </main>
     </div>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"
-        integrity="sha512-PqRelaJGXVuQ81N6wjUrRQelCDR7z8RvKGiR9SbSxKHPIt15eJDmIVv9EJgwq0XvgylszsjzvQ0+VyI2WtIshQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <script src="{{ asset('js/imageProductModal.js') }}"></script>
 </body>
 

@@ -7,7 +7,7 @@
             <img src="{{ asset('img/login-bro.svg') }}" alt="AppFinanceiro" height="100%">
         </div>
         <div class="col-md-7 align-self-center">
-            <div class="card bg-violet-dark">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title text-center"><b>{{ __('Login') }}</b></h5><br>
                     <form method="POST" action="{{ route('login') }}">

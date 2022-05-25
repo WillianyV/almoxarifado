@@ -20,7 +20,7 @@ class CompanySeeder extends Seeder
             'address'  => 'Avenida Manoel Fernandes Batista',
             'number'   => '108',
             'district' => 'Aparecida',
-            'zip_code' => '14883205',
+            'zipcode' => '14883205',
             'city'     => 'Jaboticabal',
             'state'    => 'SP'
         ]);
@@ -29,7 +29,7 @@ class CompanySeeder extends Seeder
             'cnpj'          => '05634711000131',
             'fantasyName'   => 'Entregas Expressas',
             'corporateName' => 'Erick e Camila Entregas Expressas Ltda',
-            'status'        => 1,
+            'status'        => true,
             'address_id'    => $address->id,
             'warehouse_id'  => 1
         ]);

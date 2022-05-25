@@ -35,14 +35,14 @@ class DatabaseSeeder extends Seeder
         */
 
         /** Seeders */
-        $this->call(CategorySeeder::class);
-        $this->call(CompanySeeder::class);
-        $this->call(DepartmentSeeder::class);
-        $this->call(EmployeeSeeder::class);
-        $this->call(ProductSeeder::class);
-        $this->call(ProviderSeeder::class);
         $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
+        $this->call(DepartmentSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(ProviderSeeder::class);
         $this->call(WarehouseSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(CompanySeeder::class);
+        $this->call(EmployeeSeeder::class);
+        // $this->call(ProductSeeder::class);
     }
 }

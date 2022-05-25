@@ -20,7 +20,7 @@ class WarehouseSeeder extends Seeder
             'address'  => 'AVENIDA UM',
             'number'   => '22A',
             'district' => 'PARQUE CAPIBARIBE',
-            'zip_code' => '56400000',
+            'zipcode'  => '56400000',
             'city'     => 'SÃO LOURENÇO',
             'state'    => 'PE'
         ]);
@@ -28,7 +28,7 @@ class WarehouseSeeder extends Seeder
         Warehouse::create([
             'description' => 'Central',
             'address_id'  => $address->id,
-            'status'      => 1
+            'status'      => true
         ]);
 
     }
