@@ -11,6 +11,7 @@ use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
@@ -63,21 +64,22 @@ class ProductController extends Controller
 
         // Gravar a foto e pegando o caminho onde ela foi salva.
         if ($request->file('image')){
-            $image  = $request->file('image');
-            $folder = str_replace([' ', '-'], '_', mb_strtoupper($request->description, 'UTF-8'));
-            $path   = "images/products/$request->code-$folder";
-            $return = $image->store($path,'public');
-            $data['image'] = $return;
+            $data['image'] = Product::saveImage($request->file('image'), $request->description,$request->code);
         }
+        //verificar se há necessidade de compra
+        $data = Arr::add($data, 'buy', Product::checkStock($request->stock,$request->minimumStock));
 
         // Cria o produto
         $product = $this->product->create($data);
+
         // da entrada de mercadoria
+        $totalValue =  GoodsReceipt::calculateTotalValue($request->unitaryValue, $request->stock);
         GoodsReceipt::create([
             'value'      => $request->unitaryValue,
             'date'       => date('Y-m-d'),
             'amount'     => $request->stock,
-            'product_id' => $product->id
+            'product_id' => $product->id,
+            'totalValue' => $totalValue
         ]);
 
         return to_route('produtos.index')->with('success','Produto cadastrado com sucesso.');
@@ -132,12 +134,13 @@ class ProductController extends Controller
             if ($product->image) {
                 Storage::disk('public')->delete($product->image); //remove a imagem anterior
             }
-            $image  = $request->file('image');
-            $folder = str_replace([' ', '-'], '_', mb_strtoupper($request->description, 'UTF-8'));
-            $path   = "images/products/$request->code-$folder";
-            $return = $image->store($path,'public');
-            $data['image'] = $return;
+            //salva nova imagem
+            $data['image'] = Product::saveImage($request->file('image'), $request->description,$request->code);
         }
+
+        //verificar se há necessidade de compra
+        $data = Arr::add($data, 'buy', Product::checkStock($request->stock,$request->minimumStock));
+
         $product->update($data);
 
         return to_route('produtos.index')->with('success','Produto atualizado com sucesso.');

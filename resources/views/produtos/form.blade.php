@@ -95,7 +95,12 @@
                             </div>
                             <div class="col-sm-3 mb-3">
                                 <label for="stock" class="form-label">Estoque</label>
-                                <input type="text" class="form-control" name="stock" id="stock" aria-describedby="stockHelp" value="{{ old('stock', $product->stock ?? '') }}" required>
+                                <input type="text" class="form-control" name="stock" id="stock" aria-describedby="stockHelp" value="{{ old('stock', $product->stock ?? '') }}"
+                                @if (isset($product))
+                                    readonly
+                                @else
+                                    required
+                                @endif>
                                 <div id="stockHelp" class="form-text">Obrigatório.</div>
                                 @error('stock')
                                     <span class="text-danger"><small>{{ $message }}</small></span>
