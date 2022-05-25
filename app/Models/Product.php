@@ -17,7 +17,7 @@ class Product extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['code', 'image', 'description', 'stock', 'minimumStock',
+    protected $fillable = ['code', 'image', 'description', 'stock', 'minimumStock', 'buy',
     'status', 'category_id', 'provider_id', 'warehouse_id'];
 
 
@@ -69,6 +69,33 @@ class Product extends Model
                 ->orWhere('code','ILIKE',"%{$search}%")
                 ->get();
         }
+    }
+
+    public static function updateStock($product_id, $amount)
+    {
+        $product = self::where('id', '=', $product_id)->select('stock')->first();
+        $stock = $product->stock + $amount;
+
+        //verificar se há necessidade de compra
+        $buy = self::checkStock($stock,$product->minimumStock);
+
+        self::where('id', '=', $product_id)->update(['stock' => $stock,'buy' => $buy]);
+    }
+
+    public static function checkStock($stock, $minimumStock)
+    {
+        $validate = false;
+        if ($stock <= $minimumStock) {
+            $validate = true;
+        }
+        return $validate;
+    }
+
+    public static function saveImage($image, $description, $code)
+    {
+        $folder = str_replace([' ', '-'], '_', mb_strtoupper($description, 'UTF-8'));
+        $path   = "images/products/$code-$folder";
+        return $image->store($path,'public');
     }
 
     /*

@@ -17,11 +17,9 @@ class ProductSeeder extends Seeder
     {
         Product::create([
             'code'         => 123,
-            'image'        => "imagemDoProduto",
             'description'  => "Caneta Bic",
             'stock'        => 25,
             'minimumStock' => 3,
-            'purchaseData' => date('Y-m-d'),
             'status'       => true,
             'category_id'  => 1,
             'provider_id'  => 1,
