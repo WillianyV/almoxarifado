@@ -17,7 +17,7 @@ class GoodsReceipt extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['value', 'date', 'amount', 'product_id'];
+    protected $fillable = ['value', 'date', 'amount', 'product_id','totalValue'];
 
     /**
      * Get the validation rules that apply to the request.
@@ -34,6 +34,15 @@ class GoodsReceipt extends Model
         ];
     }
 
+    public static function calculateTotalValue($value, $amount)
+    {
+        $totalValue = number_format(str_replace(',','.',$value), 2, '.', '') * $amount;
+        return $totalValue;
+    }
+
+    /*
+     | Relacionamento
+    */
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -55,6 +64,14 @@ class GoodsReceipt extends Model
         return new Attribute(
             get: fn($value) => Carbon::createfromformat('Y-m-d', $value)->format("d/m/Y"),
             set: fn ($value) => Carbon::parse($value)->format('Y-m-d'),
+        );
+    }
+
+    public function totalValue():Attribute
+    {
+        return new Attribute(
+            get: fn($value) => number_format($value, 2, ",", "."),
+            set: fn($value) => number_format(str_replace(',','.',$value), 2, '.', '')
         );
     }
 }

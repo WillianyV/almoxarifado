@@ -14,9 +14,9 @@
                         @isset($goodsReceipt)
                             @method('PUT')
                         @endisset
-                        <div class="mb-3 row">
-                            <label for="product_id" class="col-sm-2 col-form-label">Mercadoria</label>
-                            <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label for="product_id" class="form-label">Mercadoria</label>
                                 <select class="form-select" name="product_id" id="product_id" aria-describedby="product_idHelp" required>
                                     <option value="" disabled selected hidden>Selecione a Mercadoria</option>
                                     @foreach ($products as $product)
@@ -28,9 +28,7 @@
                                     <span class="text-danger"><small>{{ $message }}</small></span>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label for="amount" class="form-label">Quantidade</label>
                                 <input type="text" class="form-control" name="amount" id="amount" aria-describedby="amountHelp" value="{{ old('amount', $goodsReceipt->amount ?? '') }}" required>
                                 <div id="amountHelp" class="form-text">Obrigatório.</div>
@@ -38,7 +36,9 @@
                                     <span class="text-danger"><small>{{ $message }}</small></span>
                                 @enderror
                             </div>
-                            <div class="col-sm-4 mb-3">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
                                 <label for="value" class="form-label">Valor</label>
                                 <input type="text" class="form-control" name="value" id="value" aria-describedby="valueHelp" value="{{ old('value', $goodsReceipt->value ?? '') }}" required>
                                 <div id="valueHelp" class="form-text">Obrigatório.</div>
@@ -46,9 +46,9 @@
                                     <span class="text-danger"><small>{{ $message }}</small></span>
                                 @enderror
                             </div>
-                            <div class="col-sm-4 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label for="date" class="form-label">Data</label>
-                                <input type="date" class="form-control" name="date" id="date" aria-describedby="dateHelp" value="{{ old('date', $goodsReceipt->date ?? '') }}" required>
+                                <input type="date" class="form-control" name="date" id="date" aria-describedby="dateHelp" value="{{ old('date', $goodsReceipt->dateFormat ?? '') }}" required>
                                 <div id="dateHelp" class="form-text">Obrigatório.</div>
                                 @error('date')
                                     <span class="text-danger"><small>{{ $message }}</small></span>

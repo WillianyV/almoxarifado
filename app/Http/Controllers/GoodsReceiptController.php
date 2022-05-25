@@ -6,12 +6,16 @@ use App\Models\GoodsReceipt;
 use App\Http\Requests\StoreGoodsReceiptRequest;
 use App\Http\Requests\UpdateGoodsReceiptRequest;
 use App\Models\Product;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class GoodsReceiptController extends Controller
 {
-    public function __construct(GoodsReceipt $goodsReceipt)
+    public function __construct(GoodsReceipt $goodsReceipt, Product $product)
     {
         $this->goodsReceipt = $goodsReceipt;
+        $this->product = $product;
     }
 
     /**
@@ -21,7 +25,8 @@ class GoodsReceiptController extends Controller
      */
     public function index()
     {
-        //
+        $goodsReceipts = $this->goodsReceipt->with('product:id,description')->orderBy('id','DESC')->paginate(15);
+        return view('entrada-de-mercadorias.index', compact('goodsReceipts'));
     }
 
     /**
@@ -33,7 +38,7 @@ class GoodsReceiptController extends Controller
     {
         $action   = route('entrada-de-mercadorias.store');
         $title    = 'Entrada de Mercadorias';
-        $products = Product::where('status', 1)->select(['id','description'])->get();
+        $products = $this->product->where('status', 1)->select(['id','description'])->get();
         return view('entrada-de-mercadorias.form', compact('action', 'title','products'));
     }
 
@@ -45,53 +50,71 @@ class GoodsReceiptController extends Controller
      */
     public function store(StoreGoodsReceiptRequest $request)
     {
-        $this->goodsReceipt->create($request->except(['_token','_method']));
+        $data       = $request->except(['_token','_method']);
+        $totalValue =  $this->goodsReceipt->calculateTotalValue($request->value, $request->amount);
+        $data       = Arr::add($data, 'totalValue', $totalValue);
+        $this->goodsReceipt->create($data);
+
+        $this->product->updateStock($request->product_id, $request->amount);
 
         return to_route('entrada-de-mercadorias.index')->with('success','Entrada de mercadoria cadastrada com sucesso.');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\GoodsReceipt  $goodsReceipt
-     * @return \Illuminate\Http\Response
-     */
-    public function show(GoodsReceipt $goodsReceipt)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\GoodsReceipt  $goodsReceipt
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function edit(GoodsReceipt $goodsReceipt)
+    public function edit($id)
     {
-        //
+        $goodsReceipt = $this->goodsReceipt->find($id);
+
+        $date         = Carbon::createfromformat("d/m/Y", $goodsReceipt->date)->format('Y-m-d');
+        $goodsReceipt = Arr::add($goodsReceipt, 'dateFormat', $date);
+
+        $action   = route('entrada-de-mercadorias.update', $id);
+
+        $title    = 'Edição da Entrada da Mercadoria';
+        $products = $this->product->where('status', 1)->select(['id','description'])->get();
+
+        return view('entrada-de-mercadorias.form', compact('goodsReceipt','action', 'title','products'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateGoodsReceiptRequest  $request
-     * @param  \App\Models\GoodsReceipt  $goodsReceipt
+     * @param  \Illuminate\Http\Request  $request
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGoodsReceiptRequest $request, GoodsReceipt $goodsReceipt)
+    public function update(Request $request, $id)
     {
-        //
+        $goodsReceipt = $this->goodsReceipt->find($id);
+        //Remove a quantidade anterior
+        $this->product->updateStock($goodsReceipt->product_id, $goodsReceipt->amount, false);
+
+        $data       = $request->except(['_token','_method']);
+        $totalValue =  $this->goodsReceipt->calculateTotalValue($request->value, $request->amount);
+        $data       = Arr::add($data, 'totalValue', $totalValue);
+        $goodsReceipt->update($data);
+
+        $this->product->updateStock($request->product_id, $request->amount);
+        return to_route('entrada-de-mercadorias.index')->with('success','Entrada atualizada com sucesso.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\GoodsReceipt  $goodsReceipt
+     * @param  Integer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GoodsReceipt $goodsReceipt)
+    public function destroy($id)
     {
-        //
+        $goodsReceipt = $this->goodsReceipt->find($id);
+        //Remove a quantidade anterior
+        $this->product->updateStock($goodsReceipt->product_id, $goodsReceipt->amount, false);
+        $goodsReceipt->delete();
+        return to_route('entrada-de-mercadorias.index')->with('success','Entrada removida com sucesso.');
     }
 }
