@@ -71,10 +71,15 @@ class Product extends Model
         }
     }
 
-    public static function updateStock($product_id, $amount)
+    public static function updateStock($product_id, $amount, $sum = true)
     {
         $product = self::where('id', '=', $product_id)->select('stock')->first();
-        $stock = $product->stock + $amount;
+
+        if ($sum) {
+            $stock = $product->stock + $amount;
+        } else {
+            $stock = $product->stock - $amount;
+        }
 
         //verificar se há necessidade de compra
         $buy = self::checkStock($stock,$product->minimumStock);

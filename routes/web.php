@@ -12,7 +12,6 @@ Route::get('usuario/pdf/{search?}'               ,'App\Http\Controllers\UserCont
 Route::get('empresa/pdf/{search?}'               ,'App\Http\Controllers\CompanyController@exportToPdf')->name('empresa.pdf');
 Route::get('funcionario/pdf/{search?}'           ,'App\Http\Controllers\EmployeeController@exportToPdf')->name('funcionario.pdf');
 Route::get('produtos/pdf/{search?}'              ,'App\Http\Controllers\ProductController@exportToPdf')->name('produtos.pdf');
-Route::get('entrada-de-mercadorias/pdf/{search?}','App\Http\Controllers\GoodsReceiptController@exportToPdf')->name('entrada-de-mercadorias.pdf');
 
 Route::get('/', function () { return view('home'); });
 
@@ -29,4 +28,4 @@ Route::resource('usuario'               ,'App\Http\Controllers\UserController');
 Route::resource('empresa'               ,'App\Http\Controllers\CompanyController');
 Route::resource('funcionario'           ,'App\Http\Controllers\EmployeeController');
 Route::resource('produtos'              ,'App\Http\Controllers\ProductController');
-Route::resource('entrada-de-mercadorias','App\Http\Controllers\GoodsReceiptController');
+Route::resource('entrada-de-mercadorias','App\Http\Controllers\GoodsReceiptController')->except('show');

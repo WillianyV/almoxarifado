@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('value');
             $table->date('date');
             $table->integer('amount');
+            $table->float('totalValue');
             $table->foreignIdFor(Product::class)->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
