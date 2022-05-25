@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card bg-violet-dark">
+                <div class="card">
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col">
@@ -37,7 +37,7 @@
                         </div>
                         <hr>
                         <div class="table-responsive">
-                            <table class="table table-gray-dark table-hover">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">Imagem</th>

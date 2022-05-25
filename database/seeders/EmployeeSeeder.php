@@ -19,7 +19,7 @@ class EmployeeSeeder extends Seeder
             'name'    => 'Sebastiana Caroline Barros',
             'code'    => '321',
             'cpf'     => '27719879880',
-            'status'  => 1,
+            'status'  => true,
             'role_id' => 1,
             'department_id' => 1,
             'company_id'    => 1

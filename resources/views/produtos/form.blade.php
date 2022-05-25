@@ -8,7 +8,7 @@
         @else
         <div class="col-md-8">
         @endif
-            <div class="card bg-violet-dark">
+            <div class="card">
                 <div class="card-body">
                     <div class="mb-3">
                         <h4>{{ $title }}</h4>
