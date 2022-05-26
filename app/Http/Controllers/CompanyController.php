@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
-    public function __construct(Company $company)
+    public function __construct(Company $company, Warehouse $warehouse, Address $address)
     {
-        $this->company = $company;
+        $this->company   = $company;
+        $this->warehouse = $warehouse;
+        $this->address   = $address;
     }
 
     /**
@@ -27,9 +29,9 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $companies = Company::search($request->search)->paginate();
+            $companies = $this->company->search($request->search)->paginate();
         }else{
-            $companies = Company::orderBy('id', 'ASC')->paginate(15);
+            $companies = $this->company->orderBy('id', 'ASC')->paginate(15);
         }
         $filters = $request->except('_token');
         return view('empresa.index',compact('companies','filters'));
@@ -44,7 +46,7 @@ class CompanyController extends Controller
     {
         $action = route('empresa.store');
         $title  = 'Criar uma nova empresa';
-        $warehouses = Warehouse::where('status',true)->select(['id','description'])->get();
+        $warehouses = $this->warehouse->where('status',true)->select(['id','description'])->get();
         return view('empresa.form', compact('action', 'title', 'warehouses'));
     }
 
@@ -58,11 +60,11 @@ class CompanyController extends Controller
     {
         $data = $request->except(['_token','_method']);
 
-        $address = Address::create($data);
+        $address = $this->address->create($data);
 
         $data = Arr::add($data, 'address_id', $address->id);
 
-        Company::create($data);
+        $this->company->create($data);
 
         return to_route('empresa.index')->with('success','Empresa cadastrada com sucesso.');
     }
@@ -91,7 +93,7 @@ class CompanyController extends Controller
         $company = $this->company->with(['address'])->find($id);
         $action = route('empresa.update', $company->id);
         $title  = 'Editar Empresa: ' . $company->description;
-        $warehouses = Warehouse::where('status',true)->select(['id','description'])->get();
+        $warehouses = $this->warehouse->where('status',true)->select(['id','description'])->get();
 
         return view('empresa.form', compact('company', 'action', 'title', 'warehouses'));
     }
@@ -111,7 +113,7 @@ class CompanyController extends Controller
             $request->validate($company->rules());
             $data = $request->except(['_token','_method']);
 
-            $address = Address::find($company->address_id);
+            $address = $this->address->find($company->address_id);
             $address->update($data);
 
             $company->update($data);
@@ -139,7 +141,7 @@ class CompanyController extends Controller
 
     public function exportToPdf(Request $request)
     {
-        $companies   = $this->company::exports($request->search);
+        $companies   = $this->company->exports($request->search);
         $dom_pdf = PDF::loadView('empresa.pdf', compact('companies'));
         return $dom_pdf->download('Lista_de_empresas.pdf');
     }

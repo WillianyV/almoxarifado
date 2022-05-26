@@ -12,9 +12,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class EmployeeController extends Controller
 {
-    public function __construct(Employee $employee)
+    public function __construct(Employee $employee, Role $role, Department $department, Company $company)
     {
-        $this->employee = $employee;
+        $this->employee   = $employee;
+        $this->role       = $role;
+        $this->department = $department;
+        $this->company    = $company;
     }
 
     /**
@@ -43,9 +46,9 @@ class EmployeeController extends Controller
     {
         $action = route('funcionario.store');
         $title  = 'Criar um novo Funcionário';
-        $roles  = Role::where('status',true)->select(['id','description'])->get();
-        $departments = Department::where('status',true)->select(['id','description'])->get();
-        $companies   = Company::where('status',true)->select(['id','fantasyName'])->get();
+        $roles  = $this->role->where('status',true)->select(['id','description'])->get();
+        $departments = $this->department->where('status',true)->select(['id','description'])->get();
+        $companies   = $this->company->where('status',true)->select(['id','fantasyName'])->get();
         return view('funcionario.form', compact('action', 'title','roles','departments','companies'));
     }
 
@@ -87,9 +90,9 @@ class EmployeeController extends Controller
         $employee = $this->employee->find($id);
         $action   = route('usuario.update', $employee->id);
         $title    = 'Editar usuário: ' . $employee->name;
-        $roles    = Role::where('status',true)->select(['id','description'])->get();
-        $departments = Department::where('status',true)->select(['id','description'])->get();
-        $companies   = Company::where('status',true)->select(['id','fantasyName'])->get();
+        $roles    = $this->role->where('status',true)->select(['id','description'])->get();
+        $departments = $this->department->where('status',true)->select(['id','description'])->get();
+        $companies   = $this->company->where('status',true)->select(['id','fantasyName'])->get();
         return view('funcionario.form', compact('employee','action', 'title','roles','departments','companies'));
     }
 
@@ -126,7 +129,7 @@ class EmployeeController extends Controller
 
     public function exportToPdf(Request $request)
     {
-        $employees   = $this->employee::exports($request->search);
+        $employees   = $this->employee->exports($request->search);
         $dom_pdf = PDF::loadView('funcionario.pdf', compact('employees'));
         return $dom_pdf->download('Lista_de_funcionarios.pdf');
     }

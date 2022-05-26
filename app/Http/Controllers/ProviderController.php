@@ -21,10 +21,10 @@ class ProviderController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $providers = Provider::search($request->search)->paginate();
+            $providers = $this->provider->search($request->search)->paginate();
         }else{
-            $providers = Provider::orderBy('id', 'ASC')->paginate(15);
-        } 
+            $providers = $this->provider->orderBy('id', 'ASC')->paginate(15);
+        }
         $filters = $request->except('_token');
         return view('fornecedor.index',compact('providers','filters'));
     }
@@ -52,7 +52,7 @@ class ProviderController extends Controller
     {
         $data = $request->except(['_token','_method']);
 
-        Provider::create($data);
+        $this->provider->create($data);
 
         return to_route('fornecedor.index')->with('success','Fornecedor cadastrado com sucesso.');
     }
@@ -80,7 +80,7 @@ class ProviderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $provider = $this->provider->find($id); 
+        $provider = $this->provider->find($id);
         $request->validate($provider->rules());
         $data = $request->except(['_token','_method']);
         $provider->update($data);
@@ -104,7 +104,7 @@ class ProviderController extends Controller
     public function exportToPdf(Request $request)
     {
         $providers   = $this->provider::exports($request->search);
-        $dom_pdf = PDF::loadView('fornecedor.pdf', compact('providers'));  
+        $dom_pdf = PDF::loadView('fornecedor.pdf', compact('providers'));
         return $dom_pdf->download('Lista_de_fornecedores.pdf');
     }
 }

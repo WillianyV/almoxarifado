@@ -21,9 +21,9 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $categories = Category::search($request->search)->paginate();
+            $categories =  $this->category->search($request->search)->paginate();
         }else{
-            $categories = Category::orderBy('id', 'ASC')->paginate(1);
+            $categories =  $this->category->orderBy('id', 'ASC')->paginate(1);
         }
         $filters = $request->except('_token');
         return view('categoria.index',compact('categories','filters'));
@@ -52,7 +52,7 @@ class CategoryController extends Controller
     {
         $data = $request->except(['_token','_method']);
 
-        Category::create($data);
+        $this->category->create($data);
 
         return to_route('categoria.index')->with('success','Categoria cadastrada com sucesso.');
     }
@@ -104,7 +104,7 @@ class CategoryController extends Controller
 
     public function exportToPdf(Request $request)
     {
-        $categories = $this->category::exports($request->search);
+        $categories = $this->category->exports($request->search);
         $dom_pdf    = PDF::loadView('categoria.pdf', compact('categories'));
         return $dom_pdf->download('Lista_de_categorias.pdf');
     }

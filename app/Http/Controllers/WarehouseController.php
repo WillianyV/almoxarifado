@@ -11,9 +11,10 @@ use Illuminate\Support\Arr;
 
 class WarehouseController extends Controller
 {
-    public function __construct(Warehouse $warehouse)
+    public function __construct(Warehouse $warehouse, Address $address)
     {
         $this->warehouse = $warehouse;
+        $this->address   = $address;
     }
     /**
      * Display a listing of the resource.
@@ -23,9 +24,9 @@ class WarehouseController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $warehouses = Warehouse::search($request->search)->paginate();
+            $warehouses = $this->warehouse->search($request->search)->paginate();
         }else{
-            $warehouses = Warehouse::orderBy('id', 'ASC')->paginate(15);
+            $warehouses = $this->warehouse->orderBy('id', 'ASC')->paginate(15);
         }
         $filters = $request->except('_token');
         return view('almoxarifado.index',compact('warehouses','filters'));
@@ -54,11 +55,11 @@ class WarehouseController extends Controller
     {
         $data = $request->except(['_token','_method']);
 
-        $address = Address::create($data);
+        $address = $this->address->create($data);
 
         $data = Arr::add($data, 'address_id', $address->id);
 
-        Warehouse::create($data);
+        $this->warehouse->create($data);
 
         return to_route('almoxarifado.index')->with('success','Almoxarifado cadastrado com sucesso.');
     }
@@ -103,7 +104,7 @@ class WarehouseController extends Controller
         $request->validate($warehouse->rules());
         $data = $request->except(['_token','_method']);
 
-        $address = Address::find($warehouse->address_id);
+        $address = $this->address->find($warehouse->address_id);
 
         $address->update($data);
 
@@ -128,7 +129,7 @@ class WarehouseController extends Controller
 
     public function exportToPdf(Request $request)
     {
-        $warehouses   = $this->warehouse::exports($request->search);
+        $warehouses   = $this->warehouse->exports($request->search);
         $dom_pdf = PDF::loadView('almoxarifado.pdf', compact('warehouses'));
         return $dom_pdf->download('Lista_de_almoxarifados.pdf');
     }

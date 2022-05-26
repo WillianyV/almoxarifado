@@ -15,9 +15,13 @@ use Illuminate\Support\Arr;
 
 class ProductController extends Controller
 {
-    public function __construct(Product $product)
+    public function __construct(Product $product, Category $category, Provider $provider, Warehouse $warehouse, GoodsReceipt $goodsReceipt)
     {
-        $this->product = $product;
+        $this->product      = $product;
+        $this->category     = $category;
+        $this->provider     = $provider;
+        $this->warehouse    = $warehouse;
+        $this->goodsReceipt = $goodsReceipt;
     }
     /**
      * Display a listing of the resource.
@@ -45,9 +49,9 @@ class ProductController extends Controller
     {
         $action = route('produtos.store');
         $title  = 'Criar um novo Produto';
-        $categories = Category::where('status', 1)->select(['id','description'])->get();
-        $providers  = Provider::where('status', 1)->select(['id','name'])->get();
-        $warehouses = Warehouse::where('status', 1)->select(['id','description'])->get();
+        $categories = $this->category->where('status', 1)->select(['id','description'])->get();
+        $providers  = $this->provider->where('status', 1)->select(['id','name'])->get();
+        $warehouses = $this->warehouse->where('status', 1)->select(['id','description'])->get();
 
         return view('produtos.form', compact('action', 'title','categories','providers','warehouses'));
     }
@@ -64,17 +68,17 @@ class ProductController extends Controller
 
         // Gravar a foto e pegando o caminho onde ela foi salva.
         if ($request->file('image')){
-            $data['image'] = Product::saveImage($request->file('image'), $request->description,$request->code);
+            $data['image'] = $this->product->saveImage($request->file('image'), $request->description,$request->code);
         }
         //verificar se há necessidade de compra
-        $data = Arr::add($data, 'buy', Product::checkStock($request->stock,$request->minimumStock));
+        $data = Arr::add($data, 'buy', $this->product->checkStock($request->stock,$request->minimumStock));
 
         // Cria o produto
         $product = $this->product->create($data);
 
         // da entrada de mercadoria
-        $totalValue =  GoodsReceipt::calculateTotalValue($request->unitaryValue, $request->stock);
-        GoodsReceipt::create([
+        $totalValue =  $this->goodsReceipt->calculateTotalValue($request->unitaryValue, $request->stock);
+        $this->goodsReceipt->create([
             'value'      => $request->unitaryValue,
             'date'       => date('Y-m-d'),
             'amount'     => $request->stock,
@@ -109,9 +113,9 @@ class ProductController extends Controller
 
         $action = route('produtos.update', $product->id);
         $title  = "Editar Produto #$product->code";
-        $categories = Category::where('status', 1)->select(['id','description'])->get();
-        $providers  = Provider::where('status', 1)->select(['id','name'])->get();
-        $warehouses = Warehouse::where('status', 1)->select(['id','description'])->get();
+        $categories = $this->category->where('status', 1)->select(['id','description'])->get();
+        $providers  = $this->provider->where('status', 1)->select(['id','name'])->get();
+        $warehouses = $this->warehouse->where('status', 1)->select(['id','description'])->get();
 
         return view('produtos.form', compact('product','action', 'title','categories','providers','warehouses'));
     }
@@ -135,11 +139,11 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->image); //remove a imagem anterior
             }
             //salva nova imagem
-            $data['image'] = Product::saveImage($request->file('image'), $request->description,$request->code);
+            $data['image'] = $this->product->saveImage($request->file('image'), $request->description,$request->code);
         }
 
         //verificar se há necessidade de compra
-        $data = Arr::add($data, 'buy', Product::checkStock($request->stock,$request->minimumStock));
+        $data = Arr::add($data, 'buy', $this->product->checkStock($request->stock,$request->minimumStock));
 
         $product->update($data);
 

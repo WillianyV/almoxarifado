@@ -22,10 +22,10 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $departments = Department::search($request->search)->paginate();
+            $departments = $this->department->search($request->search)->paginate();
         }else{
-            $departments = Department::orderBy('id', 'ASC')->paginate(15);
-        } 
+            $departments = $this->department->orderBy('id', 'ASC')->paginate(15);
+        }
         $filters = $request->except('_token');
         return view('setor.index',compact('departments','filters'));
     }
@@ -53,7 +53,7 @@ class DepartmentController extends Controller
     {
         $data = $request->except(['_token','_method']);
 
-        Department::create($data);
+        $this->department->create($data);
 
         return to_route('setor.index')->with('success','Setor cadastrado com sucesso.');
     }
@@ -81,8 +81,8 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $department = $this->department->find($id); 
-        $request->validate($department->rules());        
+        $department = $this->department->find($id);
+        $request->validate($department->rules());
         $data = $request->except(['_token','_method']);
         $department->update($data);
 
@@ -97,7 +97,7 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        $department = $this->department->find($id); 
+        $department = $this->department->find($id);
         $department->delete();
 
         return to_route('setor.index')->with('success','Setor removido com sucesso.');
@@ -105,8 +105,8 @@ class DepartmentController extends Controller
 
     public function exportToPdf(Request $request)
     {
-        $departments = $this->department::exports($request->search);
-        $dom_pdf     = PDF::loadView('setor.pdf', compact('departments'));  
+        $departments = $this->department->exports($request->search);
+        $dom_pdf     = PDF::loadView('setor.pdf', compact('departments'));
         return $dom_pdf->download('Lista_de_setores.pdf');
     }
 }

@@ -22,10 +22,10 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $roles = Role::search($request->search)->paginate();
+            $roles = $this->role->search($request->search)->paginate();
         }else{
-            $roles = Role::orderBy('id', 'ASC')->paginate(15);
-        } 
+            $roles = $this->role->orderBy('id', 'ASC')->paginate(15);
+        }
         $filters = $request->except('_token');
         return view('funcao.index',compact('roles','filters'));
     }
@@ -53,7 +53,7 @@ class RoleController extends Controller
     {
         $data = $request->except(['_token','_method']);
 
-        Role::create($data);
+        $this->role->create($data);
 
         return to_route('funcao.index')->with('success','Função cadastrada com sucesso.');
     }
@@ -81,7 +81,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $role = $this->role->find($id); 
+        $role = $this->role->find($id);
         $request->validate($role->rules());
         $data = $request->except(['_token','_method']);
         $role->update($data);
@@ -104,8 +104,8 @@ class RoleController extends Controller
 
     public function exportToPdf(Request $request)
     {
-        $roles   = $this->role::exports($request->search);
-        $dom_pdf = PDF::loadView('funcao.pdf', compact('roles'));  
+        $roles   = $this->role->exports($request->search);
+        $dom_pdf = PDF::loadView('funcao.pdf', compact('roles'));
         return $dom_pdf->download('Lista_de_funcoes.pdf');
     }
 }

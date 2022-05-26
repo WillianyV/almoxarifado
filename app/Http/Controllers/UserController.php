@@ -10,9 +10,10 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
-    public function __construct(User $user)
+    public function __construct(User $user, Warehouse $warehouse)
     {
-        $this->user = $user;
+        $this->user      = $user;
+        $this->warehouse = $warehouse;
     }
     /**
      * Display a listing of the resource.
@@ -22,9 +23,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->search) {
-            $users = User::search($request->search)->paginate();
+            $users = $this->user->search($request->search)->paginate();
         }else{
-            $users = User::orderBy('id', 'ASC')->paginate(15);
+            $users = $this->user->orderBy('id', 'ASC')->paginate(15);
         }
         $filters = $request->except('_token');
         return view('usuario.index',compact('users','filters'));
@@ -39,7 +40,7 @@ class UserController extends Controller
     {
         $action = route('usuario.store');
         $title  = 'Criar um novo usuário';
-        $warehouses = Warehouse::where('status',true)->select(['id','description'])->get();
+        $warehouses = $this->warehouse->where('status',true)->select(['id','description'])->get();
         return view('usuario.form', compact('action', 'title','warehouses'));
     }
 
@@ -53,7 +54,7 @@ class UserController extends Controller
     {
         $data = $request->except(['_token','_method']);
 
-        User::create($data);
+        $this->user->create($data);
 
         return to_route('usuario.index')->with('success','Usuário cadastrado com sucesso.');
     }
@@ -81,7 +82,7 @@ class UserController extends Controller
         $user = $this->user->find($id);
         $action = route('usuario.update', $user->id);
         $title  = 'Editar usuário: ' . $user->name;
-        $warehouses = Warehouse::where('status',true)->select(['id','description'])->get();
+        $warehouses = $this->warehouse->where('status',true)->select(['id','description'])->get();
         return view('usuario.form', compact('user', 'action', 'title','warehouses'));
     }
 
@@ -118,7 +119,7 @@ class UserController extends Controller
 
     public function exportToPdf(Request $request)
     {
-        $users   = $this->user::exports($request->search);
+        $users   = $this->user->exports($request->search);
         $dom_pdf = PDF::loadView('usuario.pdf', compact('users'));
         return $dom_pdf->download('Lista_de_usuario.pdf');
     }
